@@ -7,6 +7,11 @@ export default [
   },
   {
     exact: true,
+    path: '/test',
+    component: '@/pages/test/Index',
+  },
+  {
+    exact: true,
     path: '/auth/phone-login',
     component: '@/pages/auth/phone-login/Index',
   },
@@ -61,11 +66,6 @@ export default [
     exact: true,
     path: '/me/setting',
     component: '@/pages/me/Setting',
-  },
-  {
-    exact: true,
-    path: '/test',
-    component: '@/pages/Test',
   },
   {
     exact: true,

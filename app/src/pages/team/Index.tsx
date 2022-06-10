@@ -58,7 +58,6 @@ export default function Index(key?: string) {
           });
         }}
       />
-
       <List
         dataSource={projectsState.value?.filter(state.filter)}
         renderItem={(item) => (

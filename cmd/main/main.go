@@ -20,6 +20,7 @@ import (
 	"gorm.io/gorm"
 	"net/http"
 	"os"
+	testSetup "seg/pkg/test/setup"
 )
 
 var buildTag string = "dev"
@@ -69,6 +70,9 @@ func main() {
 		log.Fatal(err)
 	}
 	if err := teamSetup.Setup(reg, db); err != nil {
+		log.Fatal(err)
+	}
+	if err := testSetup.Setup(reg, db); err != nil {
 		log.Fatal(err)
 	}
 
