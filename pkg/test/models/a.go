@@ -1,7 +1,7 @@
 package models
 
 import (
-	"github.com/lantu-dev/puki/pkg/base"
+	"seg/pkg/base"
 )
 
 type A struct {

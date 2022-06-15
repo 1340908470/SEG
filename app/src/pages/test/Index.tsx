@@ -2,11 +2,13 @@ import {Button, Input, Form} from "antd";
 import {useState} from "react";
 import {call} from "@/utils/client";
 import test from "@/backend/test";
+import Msg from "./Msg"
 
 export default function Index() {
   return (
     <div>
       <h1>Hello world</h1>
+      <Msg/>
       <Form
         name="basic"
         labelCol={{ span: 8 }}
@@ -16,7 +18,6 @@ export default function Index() {
           call(test.TestService.Test, {
             name: values.name
           }).then(resp => {
-            alert(resp.message)
           })
         }}
         autoComplete="off"

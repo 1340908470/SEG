@@ -8,10 +8,10 @@ package auth
 
 import (
 	"encoding/json"
-	"github.com/lantu-dev/puki/pkg/auth/models"
-	"github.com/lantu-dev/puki/pkg/base/rpc"
 	log "github.com/sirupsen/logrus"
 	"gorm.io/gorm"
+	"seg/pkg/auth/models"
+	"seg/pkg/base/rpc"
 	//"net/http"
 )
 

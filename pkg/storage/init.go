@@ -3,12 +3,12 @@ package storage
 import (
 	"fmt"
 	"github.com/google/uuid"
-	"github.com/lantu-dev/puki/pkg/base"
 	log "github.com/sirupsen/logrus"
 	"io/ioutil"
 	"net/http"
 	"os"
 	"path"
+	"seg/pkg/base"
 )
 
 func Setup() {

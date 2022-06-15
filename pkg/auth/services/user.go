@@ -2,14 +2,13 @@ package services
 
 import (
 	"context"
-	"github.com/lantu-dev/puki/pkg/auth"
-	"github.com/lantu-dev/puki/pkg/auth/models"
-	"github.com/lantu-dev/puki/pkg/base"
-	"github.com/lantu-dev/puki/pkg/base/null"
-	"github.com/lantu-dev/puki/pkg/base/rpc"
-	models2 "github.com/lantu-dev/puki/pkg/team/models"
 	"gorm.io/gorm"
 	"log"
+	"seg/pkg/auth"
+	"seg/pkg/auth/models"
+	"seg/pkg/base"
+	"seg/pkg/base/null"
+	"seg/pkg/base/rpc"
 	"strconv"
 	"strings"
 )
@@ -233,47 +232,4 @@ type FindUserInTeamRes struct {
 	NickName     string
 	School       string //通过Student
 	AwardSimples []AwardSimple
-}
-
-func (s *UserService) FindUserInTeam(ctx *rpc.Context, req *FindUserInTeamReq, res *FindUserInTeamRes) (err error) {
-	//1. 获取User信息
-	var user *models.User
-	var student *models.Student
-	var competitionProjects []models2.CompetitionProject
-
-	//获取创建者信息
-	var tokenUser auth.TokenUser
-	tokenUser, err = auth.ExtractTokenUser(ctx)
-	if err != nil {
-		return err
-	}
-
-	tx := s.db.Begin()
-	user = models.FindUserById(tx, tokenUser.ID)
-	//2. 获取Student信息
-	student, err = models.FindOrCreateStudentFromUser(tx, user)
-	if err != nil {
-		return err
-	}
-	//3. 获取比赛获奖情况【目前逻辑是在项目详情页中，仅展示该项目的获奖情况】
-	competitionProjects = models2.FindCompetitionProjectByProjectID(tx, int64(req.ProjectID))
-	err = tx.Commit().Error
-	if err != nil {
-		return err
-	}
-
-	var awardSimples []AwardSimple
-	for _, item := range competitionProjects {
-		awardSimples = append(awardSimples, AwardSimple{
-			AwardRanking: item.AwardRanking,
-			ProveImgURL:  item.ProveImgURL,
-		})
-	}
-
-	res.AvatarURI = user.AvatarURI
-	res.AwardSimples = awardSimples
-	res.NickName = user.NickName
-	res.RealName = user.RealName
-	res.School = student.School
-	return
 }

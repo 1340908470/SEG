@@ -3,8 +3,8 @@ package setup
 
 import (
 	"github.com/juju/errors"
-	"github.com/lantu-dev/puki/pkg/base/rpc"
 	"gorm.io/gorm"
+	"seg/pkg/base/rpc"
 	"seg/pkg/test/models"
 	"seg/pkg/test/services"
 )

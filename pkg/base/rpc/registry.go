@@ -4,12 +4,14 @@ import (
 	"encoding/json"
 	"fmt"
 	qs "github.com/gorilla/schema"
-	//jsoniter "github.com/json-iterator/go"
-	"github.com/lantu-dev/puki/pkg/base"
 	"github.com/pkg/errors"
 	log "github.com/sirupsen/logrus"
 	"net/http"
 	"reflect"
+	"seg/pkg/socket"
+
+	//jsoniter "github.com/json-iterator/go"
+	"seg/pkg/base"
 	"strings"
 	"sync"
 )
@@ -237,8 +239,14 @@ func NewErrorResBody(err error) *ResBody {
 	}
 }
 
+var SocketMsg = new(sync.Map)
+
 func (rg *ServiceRegistry) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	var err error
+	if r.Header.Get("Upgrade") == "websocket" {
+		socket.SocketHandleFunc(w, r, SocketMsg)
+	}
+
 	if rg.prefixLength > len(r.URL.Path) {
 		http.NotFound(w, r)
 		return
@@ -267,7 +275,6 @@ func (rg *ServiceRegistry) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	errVal := []reflect.Value{nilErrorValue}
 
 	if r.Method == "GET" {
-
 		err = qs.NewDecoder().Decode(reqVal, r.URL.Query())
 		if err != nil {
 			if base.IsDev {
@@ -298,10 +305,11 @@ func (rg *ServiceRegistry) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	ctx := Context{
-		ID:       rID,
-		Endpoint: endpoint,
-		Request:  r,
-		Writer:   w,
+		ID:         rID,
+		Endpoint:   endpoint,
+		Request:    r,
+		Writer:     w,
+		SocketMsgC: SocketMsg,
 	}
 	log.WithField("ReqID", rID).WithField("Endpoint", endpoint).Info("call-service start")
 

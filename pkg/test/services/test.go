@@ -2,10 +2,10 @@ package services
 
 import (
 	"fmt"
-	"github.com/lantu-dev/puki/pkg/auth"
-	"github.com/lantu-dev/puki/pkg/auth/models"
-	"github.com/lantu-dev/puki/pkg/base/rpc"
 	"gorm.io/gorm"
+	"seg/pkg/auth"
+	"seg/pkg/auth/models"
+	"seg/pkg/base/rpc"
 )
 
 type TestService struct {
@@ -41,5 +41,11 @@ func (s *TestService) Test(ctx *rpc.Context, req *TestReq, res *TestRes) (err er
 	print(user)
 
 	res.Message = fmt.Sprintf("hello, %v", req.Name)
+
+	go func() {
+		msgCI, _ := ctx.SocketMsgC.LoadOrStore(user.ID.ToString(), make(chan interface{}, 20))
+		msgC := msgCI.(chan interface{})
+		msgC <- res
+	}()
 	return nil
 }

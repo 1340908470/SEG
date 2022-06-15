@@ -13,6 +13,10 @@ var sonyFlake = sonyflake.NewSonyflake(sonyflake.Settings{})
 
 type ID int64
 
+func (id ID) ToString() string {
+	return strconv.FormatInt(int64(id), 10)
+}
+
 // GenerateID an unique int64 ID
 func GenerateID() ID {
 	id, err := sonyFlake.NextID()

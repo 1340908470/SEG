@@ -6,9 +6,9 @@ import (
 	"github.com/go-redis/redis/v8"
 	"github.com/google/uuid"
 	"github.com/juju/errors"
-	"github.com/lantu-dev/puki/pkg/base"
 	log "github.com/sirupsen/logrus"
 	"math/rand"
+	"seg/pkg/base"
 	"time"
 )
 

@@ -6,20 +6,18 @@ import (
 	"github.com/alicebob/miniredis/v2"
 	"github.com/davecgh/go-spew/spew"
 	"github.com/go-redis/redis/v8"
-	"github.com/lantu-dev/puki/pkg/auth"
-	authSetup "github.com/lantu-dev/puki/pkg/auth/setup"
-	"github.com/lantu-dev/puki/pkg/base/rpc"
-	bbssetup "github.com/lantu-dev/puki/pkg/bbs/setup"
-	eventsSetup "github.com/lantu-dev/puki/pkg/events/setup"
 	"github.com/lantu-dev/puki/pkg/hwcloud"
-	"github.com/lantu-dev/puki/pkg/storage"
-	teamSetup "github.com/lantu-dev/puki/pkg/team/setup"
 	log "github.com/sirupsen/logrus"
 	"gorm.io/driver/postgres"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 	"net/http"
 	"os"
+	"seg/pkg/auth"
+	authSetup "seg/pkg/auth/setup"
+	"seg/pkg/base/rpc"
+	"seg/pkg/socket"
+	"seg/pkg/storage"
 	testSetup "seg/pkg/test/setup"
 )
 
@@ -59,6 +57,8 @@ func main() {
 		log.Info("using sqlite")
 	}
 
+	socket.Setup(db)
+
 	reg := rpc.NewServiceRegistry("api")
 
 	// 每新增一个模块 ( mod ) , 在这里新增一个 Setup 。
@@ -66,12 +66,7 @@ func main() {
 	if err := authSetup.Setup(reg, db); err != nil {
 		log.Fatal(err)
 	}
-	if err := eventsSetup.Setup(reg, db); err != nil {
-		log.Fatal(err)
-	}
-	if err := teamSetup.Setup(reg, db); err != nil {
-		log.Fatal(err)
-	}
+
 	if err := testSetup.Setup(reg, db); err != nil {
 		log.Fatal(err)
 	}
@@ -102,7 +97,6 @@ func main() {
 		return nil
 	}, rds)
 
-	err = bbssetup.Setup(reg, db)
 	if err != nil {
 		log.Fatal(err)
 	}

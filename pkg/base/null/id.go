@@ -2,8 +2,8 @@ package null
 
 import (
 	"encoding/json"
-	"github.com/lantu-dev/puki/pkg/base"
 	"gopkg.in/guregu/null.v4"
+	"seg/pkg/base"
 	"strconv"
 )
 

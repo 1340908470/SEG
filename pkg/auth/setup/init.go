@@ -3,11 +3,11 @@ package setup
 
 import (
 	"github.com/juju/errors"
-	"github.com/lantu-dev/puki/pkg/auth/models"
-	"github.com/lantu-dev/puki/pkg/auth/services"
-	//"github.com/lantu-dev/puki/pkg/base"
-	"github.com/lantu-dev/puki/pkg/base/rpc"
 	"gorm.io/gorm"
+	"seg/pkg/auth/models"
+	"seg/pkg/auth/services"
+	//"seg/pkg/base"
+	"seg/pkg/base/rpc"
 )
 
 const MOD_NAME = "auth"

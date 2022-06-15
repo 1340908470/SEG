@@ -1,11 +1,11 @@
 package models
 
 import (
-	"github.com/lantu-dev/puki/pkg/base"
-	"github.com/lantu-dev/puki/pkg/base/null"
 	log "github.com/sirupsen/logrus"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
+	"seg/pkg/base"
+	"seg/pkg/base/null"
 )
 
 // 用户模型

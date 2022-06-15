@@ -2,9 +2,9 @@ package models
 
 import (
 	"github.com/juju/errors"
-	"github.com/lantu-dev/puki/pkg/base"
-	"github.com/lantu-dev/puki/pkg/base/null"
 	"gorm.io/gorm"
+	"seg/pkg/base"
+	"seg/pkg/base/null"
 )
 
 // 学生用户模型
